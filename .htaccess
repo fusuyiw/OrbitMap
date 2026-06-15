@@ -1,0 +1,31 @@
+Options +FollowSymLinks -MultiViews
+RewriteEngine On
+
+# Tentukan basis URL dari root
+RewriteBase /
+
+
+RewriteRule ^$ views/about.html [L]
+RewriteRule ^about(\.html)?$ / [R=301,L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(digitaltwin|elevationmodel|pointcloud)/?$ views/$1.html [L,NC]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(digitaltwin|elevationmodel|pointcloud)\.html$ views/$1.html [L,NC]
+
+# ----------------------------------------------------------------------
+# PROTEKSI FILE SENSITIF (.env, .htaccess, dll)
+# ----------------------------------------------------------------------
+
+# Blokir akses ke semua file yang diawali dengan tanda titik (seperti .env, .htaccess, .git)
+<FilesMatch "^\.">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Proteksi tambahan khusus untuk file .env, .ini, .log, dan .sh
+<FilesMatch "\.(env|ini|log|sh)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>

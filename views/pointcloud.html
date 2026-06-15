@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>OrbitMap | Potree Point Cloud</title>
+    <link rel="icon" type="image/x-icon" href="assets/data/favicon.ico" />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="assets/vendor/potree/build/potree/potree.css" rel="stylesheet">
+    <link href="assets/vendor/potree/libs/jquery-ui/jquery-ui.min.css" rel="stylesheet">
+    <link href="assets/vendor/potree/libs/spectrum/spectrum.css" rel="stylesheet">
+    <link href="assets/vendor/potree/libs/jstree/themes/mixed/style.css" rel="stylesheet">
+    <link href="assets/css/style.css" rel="stylesheet">
+  </head>
+  <body class="app-shell map-page">
+    <nav
+      class="navbar navbar-expand-lg fixed-top app-navbar"
+      data-bs-theme="dark"
+    >
+      <div class="container-fluid px-3 px-lg-4">
+        <a
+          class="navbar-brand d-flex align-items-center gap-2"
+          href="/"
+        >
+          <span class="brand-mark"><i class="bi bi-playstation"></i></span>
+          <span>OrbitMap</span>
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#mainNavbar"
+          aria-controls="mainNavbar"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mainNavbar">
+          <ul class="navbar-nav ms-auto gap-lg-2">
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="/digitaltwin">
+                <i class="bi bi-house-gear"></i>
+                <span>Digital Twin</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/elevationmodel">
+                <i class="bi bi-badge-3d"></i>
+                <span>Elevation Model</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="/elevationmodel">
+                <i class="bi bi-cloud"></i>
+                <span>Point Cloud</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/about">
+                <i class="bi bi-grid-1x2"></i>
+                <span>About</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main class="potree-stage">
+      <div class="potree_container">
+        <div id="potree_render_area"></div>
+        <div id="potree_sidebar_container"></div>
+      </div>
+
+      <section class="glass-panel command-panel potree-panel" aria-label="Panel Potree">
+        <p class="eyebrow mb-1">Point Cloud Viewer</p>
+        <h1 class="panel-title mb-1">Potree Sempaja</h1>
+        <p class="panel-copy mb-0">LOD streaming dari hasil PotreeConverter.</p>
+        <div class="control-grid mt-3">
+          <button class="btn btn-neon" type="button" id="fitPotreeBtn">
+            <i class="bi bi-arrows-fullscreen"></i>
+            <span>Fit</span>
+          </button>
+          <button class="btn btn-ghost" type="button" id="budgetLowBtn">
+            <i class="bi bi-speedometer"></i>
+            <span>Ringan</span>
+          </button>
+          <button class="btn btn-ghost" type="button" id="budgetHighBtn">
+            <i class="bi bi-gpu-card"></i>
+            <span>Detail</span>
+          </button>
+        </div>
+        <label class="range-control mt-3" for="pointBudgetSlider">
+          <span>Kerapatan Point</span>
+          <input id="pointBudgetSlider" type="range" min="100000" max="4000000" step="100000" value="100000">
+        </label>
+        <div class="classification-controls mt-3" aria-label="Filter klasifikasi point cloud">
+          <div class="d-flex align-items-center justify-content-between gap-2 mb-2">
+            <span>Klasifikasi</span>
+            <button class="btn btn-ghost btn-sm" type="button" id="classificationColorBtn">
+              <i class="bi bi-palette"></i>
+              <span>Warna</span>
+            </button>
+          </div>
+          <div class="classification-controls mt-3" aria-label="Filter klasifikasi point cloud"></div>
+            <div class="d-flex align-items-center justify-content-between gap-2 mb-2"></div>
+              <label class="classification-toggle">
+                <input id="classificationGroundToggle" type="checkbox" value="2" checked>
+                <span class="class-swatch class-ground"></span>
+                <span>Ground</span>
+              </label>
+              <label class="classification-toggle">
+                <input id="classificationVegetationToggle" type="checkbox" value="3" checked>
+                <span class="class-swatch class-vegetation"></span>
+                <span>Vegetasi</span>
+              </label>
+              <label class="classification-toggle">
+                <input id="classificationBuildingToggle" type="checkbox" value="6" checked>
+                <span class="class-swatch class-building"></span>
+                <span>Bangunan</span>
+              </label>
+          </div>
+          </div>
+        </div>
+      </section>
+
+      <aside class="glass-panel telemetry-panel" aria-label="Informasi point cloud">
+        <div class="metric">
+          <span>Dataset</span>
+          <strong id="potreeDatasetLabel">Sempaja</strong>
+        </div>
+        <div class="metric">
+          <span>Point Budget</span>
+          <strong id="potreeBudgetLabel">100.000</strong>
+        </div>
+        <div class="metric">
+          <span>Klasifikasi</span>
+          <strong id="potreeClassificationLabel">Semua</strong>
+        </div>
+      </aside>
+    </main>
+
+    <script src="assets/vendor/potree/libs/jquery/jquery-3.1.1.min.js"></script>
+    <script src="assets/vendor/potree/libs/spectrum/spectrum.js"></script>
+    <script src="assets/vendor/potree/libs/jquery-ui/jquery-ui.min.js"></script>
+    <script src="assets/vendor/potree/libs/other/BinaryHeap.js"></script>
+    <script src="assets/vendor/potree/libs/tween/tween.min.js"></script>
+    <script src="assets/vendor/potree/libs/d3/d3.js"></script>
+    <script src="assets/vendor/potree/libs/proj4/proj4.js"></script>
+    <script src="assets/vendor/potree/libs/i18next/i18next.js"></script>
+    <script src="assets/vendor/potree/libs/jstree/jstree.js"></script>
+    <script src="assets/vendor/potree/build/potree/potree.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/potree-viewer.js"></script>
+  </body>
+</html>

@@ -1,0 +1,42 @@
+{
+  "type": "FeatureCollection",
+  "name": "overlay",
+  "features": [
+    {
+      "type": "Feature",
+      "id": 72,
+      "properties": {
+        "FID": 72,
+        "_Alamat": "Jl. Ampera",
+        "_Kec": "PALARAN",
+        "_Kel": "RAWA MAKMUR",
+        "_No_Dok": "HP 00503 2003",
+        "_NIB": "16.01.01.01.04302",
+        "_Bukti_Kep": "Sertipikat Hak Pakai",
+        "_Pen_Tan": "Kantor Kelurahan",
+        "_Luas": 3600,
+        "_Dokumenta": "01. BALAI DESA RAWA MAKMUR",
+        "_Lat": -0.57341738306000001,
+        "_Lon": 117.17941548422,
+        "_X": 519963.49108337419,
+        "_y": 9936619.8161464501,
+        "_Sistem_Ko": "UTM 50S",
+        "Nomor": 1,
+        "File_Scan": "Dokumen"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [117.179715240789221, -0.573660057490323],
+            [117.179734533850834, -0.57319997012792],
+            [117.179121083751866, -0.573158738744638],
+            [117.179105081317658, -0.573652166298885],
+            [117.179715385945457, -0.57366040085021],
+            [117.179715240789221, -0.573660057490323]
+          ]
+        ]
+      }
+    }
+  ]
+}

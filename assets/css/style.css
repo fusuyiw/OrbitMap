@@ -1,0 +1,741 @@
+:root {
+  --nav-height: 72px;
+  --black: #02050d;
+  --navy: #071426;
+  --navy-strong: #0a1d37;
+  --blue: #2f8cff;
+  --cyan: #46e8ff;
+  --ice: #d9f7ff;
+  --surface: rgba(5, 14, 29, 0.76);
+  --surface-strong: rgba(7, 20, 38, 0.94);
+  --line: rgba(70, 232, 255, 0.2);
+  --text: #f2faff;
+  --muted: #91a9c7;
+  --amber: #ffd166;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body.app-shell {
+  margin: 0;
+  color: var(--text);
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  background:
+    radial-gradient(
+      circle at 18% 16%,
+      rgba(70, 232, 255, 0.16),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 82% 20%,
+      rgba(47, 140, 255, 0.18),
+      transparent 30%
+    ),
+    linear-gradient(135deg, var(--black), var(--navy) 54%, #030815);
+  overflow-x: hidden;
+}
+
+.app-navbar {
+  min-height: var(--nav-height);
+  background: linear-gradient(
+    90deg,
+    rgba(2, 5, 13, 0.94),
+    rgba(7, 20, 38, 0.88),
+    rgba(2, 5, 13, 0.94)
+  );
+  border-bottom: 1px solid var(--line);
+  box-shadow: 0 14px 42px rgba(0, 0, 0, 0.32);
+  backdrop-filter: blur(20px);
+}
+
+.navbar-brand {
+  font-weight: 800;
+  letter-spacing: 0;
+}
+
+.brand-mark {
+  display: inline-grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  color: #feffea;
+  background: linear-gradient(
+    135deg,
+    rgba(70, 232, 255, 0.98),
+    rgba(47, 140, 255, 0.96)
+  );
+  border-radius: 8px;
+  box-shadow:
+    0 0 28px rgba(70, 232, 255, 0.34),
+    inset 0 0 18px rgba(255, 255, 255, 0.18);
+}
+
+.app-navbar .nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: rgba(247, 251, 255, 0.74);
+  border: 1px solid transparent;
+  border-radius: 8px;
+  padding-inline: 0.9rem;
+}
+
+.app-navbar .nav-link:hover,
+.app-navbar .nav-link.active {
+  color: var(--text);
+  border-color: rgba(70, 232, 255, 0.34);
+  background: linear-gradient(
+    135deg,
+    rgba(70, 232, 255, 0.13),
+    rgba(47, 140, 255, 0.1)
+  );
+  box-shadow: inset 0 0 18px rgba(70, 232, 255, 0.06);
+}
+
+.map-stage {
+  position: relative;
+  min-height: 100vh;
+  padding-top: var(--nav-height);
+}
+
+.three-stage {
+  position: relative;
+  min-height: 100vh;
+  padding-top: var(--nav-height);
+  background: linear-gradient(135deg, var(--black), var(--navy));
+}
+
+.potree-stage {
+  position: relative;
+  min-height: 100vh;
+  padding-top: var(--nav-height);
+  background: linear-gradient(135deg, var(--black), var(--navy));
+}
+
+#cesiumContainer {
+  position: absolute;
+  inset: var(--nav-height) 0 0;
+  width: 100%;
+  height: calc(100vh - var(--nav-height));
+  background: #000;
+}
+
+#three-demo-canvas {
+  position: absolute;
+  inset: var(--nav-height) 0 0;
+  width: 100%;
+  height: calc(100vh - var(--nav-height));
+  background: #000;
+}
+
+#three-demo-canvas canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.qgis-three-frame {
+  position: absolute;
+  inset: var(--nav-height) 0 0;
+  width: 100%;
+  height: calc(100vh - var(--nav-height));
+  border: 0;
+  background: #000;
+}
+
+.potree_container,
+#potree_render_area {
+  position: absolute;
+  inset: var(--nav-height) 0 0;
+  width: 100%;
+  height: calc(100vh - var(--nav-height));
+  background: #000;
+}
+
+#potree_sidebar_container {
+  display: none;
+}
+
+.potree-panel {
+  pointer-events: auto;
+}
+
+.range-control {
+  display: grid;
+  gap: 0.55rem;
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.range-control input[type="range"] {
+  width: 100%;
+  accent-color: var(--cyan);
+}
+
+.classification-controls {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.45rem;
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.classification-toggle {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.55rem;
+  min-height: 42px;
+  margin: 0;
+  padding: 0.5rem 0.65rem;
+  color: var(--text);
+  border: 1px solid rgba(70, 232, 255, 0.18);
+  border-radius: 8px;
+  background: rgba(9, 28, 52, 0.62);
+  cursor: pointer;
+  transition: border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease, color 0.18s ease;
+}
+
+.classification-toggle input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.classification-toggle:has(input:checked) {
+  color: #ffffff;
+  border-color: rgba(70, 232, 255, 0.58);
+  background: linear-gradient(135deg, var(--cyan), var(--blue));
+  box-shadow: 0 0 22px rgba(70, 232, 255, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.classification-toggle:not(:has(input:checked)):hover {
+  border-color: rgba(70, 232, 255, 0.42);
+  background: linear-gradient(135deg, rgba(70, 232, 255, 0.12), rgba(47, 140, 255, 0.12));
+}
+
+.qgis-layer-controls {
+  display: grid;
+  gap: 0.45rem;
+  max-height: min(34vh, 280px);
+  overflow: auto;
+  color: var(--muted);
+  font-weight: 800;
+  scrollbar-color: var(--cyan) rgba(255, 255, 255, 0.08);
+}
+
+.qgis-layer-status {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.qgis-layer-controls .layer {
+  display: grid;
+  gap: 0.45rem;
+  padding: 0;
+}
+
+.qgis-layer-controls .layer > div {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-height: 38px;
+  margin: 0;
+  padding: 0.48rem 0.7rem;
+  color: var(--text);
+  border: 1px solid rgba(70, 232, 255, 0.18);
+  border-radius: 8px;
+  background: rgba(9, 28, 52, 0.62);
+  font-size: 0.9rem;
+  transition: border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease, color 0.18s ease;
+}
+
+.qgis-layer-controls .layer > div:first-child {
+  color: var(--text);
+}
+
+.qgis-layer-controls input[type="checkbox"] {
+  position: static;
+  flex: 0 0 auto;
+  width: 1rem;
+  height: 1rem;
+  opacity: 1;
+  pointer-events: auto;
+  accent-color: var(--cyan);
+}
+
+.qgis-layer-controls .layer > div:has(input[type="checkbox"]:checked) {
+  color: var(--text);
+  border-color: rgba(70, 232, 255, 0.46);
+  background: rgba(70, 232, 255, 0.12);
+  box-shadow: inset 0 0 18px rgba(70, 232, 255, 0.07);
+}
+
+.qgis-layer-controls .layer > div:has(input[type="checkbox"]):not(:has(input[type="checkbox"]:checked)):hover {
+  border-color: rgba(70, 232, 255, 0.42);
+  background: linear-gradient(135deg, rgba(70, 232, 255, 0.12), rgba(47, 140, 255, 0.12));
+}
+
+.qgis-layer-controls .layer > div:has(input[type="range"]) {
+  display: none;
+}
+
+.qgis-layer-controls input[type="range"] {
+  width: 100%;
+  accent-color: var(--cyan);
+}
+
+.qgis-layer-controls select {
+  min-width: 0;
+  max-width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text);
+}
+
+.class-swatch {
+  width: 0.85rem;
+  height: 0.85rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.class-ground {
+  background: #59f28c;
+}
+
+.class-vegetation {
+  background: #32bf40;
+}
+
+.class-building {
+  background: #ffbd3d;
+}
+
+.glass-panel {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background:
+    linear-gradient(145deg, rgba(7, 20, 38, 0.86), rgba(2, 8, 18, 0.72)),
+    var(--surface);
+  box-shadow:
+    0 24px 80px rgba(0, 0, 0, 0.42),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(20px);
+}
+
+.command-panel {
+  position: absolute;
+  z-index: 4;
+  top: calc(var(--nav-height) + 24px);
+  left: 24px;
+  width: min(420px, calc(100vw - 48px));
+  padding: 1.1rem;
+}
+
+.telemetry-panel {
+  position: absolute;
+  right: 24px;
+  bottom: 24px;
+  z-index: 4;
+  width: min(280px, calc(100vw - 48px));
+  padding: 1rem;
+}
+
+.cesium-popup {
+  position: absolute;
+  right: 24px;
+  top: calc(var(--nav-height) + 24px);
+  z-index: 5;
+  width: min(360px, calc(100vw - 48px));
+  max-height: calc(100vh - var(--nav-height) - 48px);
+  padding: 1rem;
+  overflow: auto;
+  backdrop-filter: blur(20px);
+}
+
+.cesium-popup[hidden] {
+  display: none;
+}
+
+.cesium-popup-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.cesium-popup-title {
+  margin: 0;
+  color: var(--text);
+  font-size: 1.1rem;
+  font-weight: 850;
+  letter-spacing: 0;
+}
+
+.cesium-popup-close {
+  display: inline-grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  flex: 0 0 auto;
+  color: var(--text);
+  border: 1px solid rgba(70, 232, 255, 0.18);
+  border-radius: 8px;
+  background: rgba(9, 28, 52, 0.62);
+}
+
+.cesium-popup-close:hover {
+  border-color: rgba(70, 232, 255, 0.42);
+  background: linear-gradient(135deg, rgba(70, 232, 255, 0.12), rgba(47, 140, 255, 0.12));
+}
+
+.cesium-popup-body {
+  display: grid;
+  gap: 0.55rem;
+  padding-top: 0.75rem;
+}
+
+.cesium-popup-row {
+  display: grid;
+  grid-template-columns: minmax(96px, 0.42fr) minmax(0, 0.58fr);
+  gap: 0.75rem;
+  padding-bottom: 0.55rem;
+  border-bottom: 1px solid rgba(70, 232, 255, 0.1);
+}
+
+.cesium-popup-row span {
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.cesium-popup-row strong {
+  min-width: 0;
+  color: var(--text);
+  font-size: 0.86rem;
+  overflow-wrap: anywhere;
+}
+
+.eyebrow {
+  color: var(--cyan);
+  font-size: 0.76rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.panel-title,
+.display-title {
+  color: var(--text);
+  font-weight: 850;
+  letter-spacing: 0;
+}
+
+.panel-title {
+  font-size: clamp(1.35rem, 2vw, 1.85rem);
+}
+
+.display-title {
+  font-size: clamp(2rem, 5vw, 4.7rem);
+  line-height: 1.02;
+}
+
+.panel-copy,
+.lead-copy {
+  color: var(--muted);
+}
+
+.status-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex: 0 0 auto;
+  padding: 0.45rem 0.65rem;
+  color: var(--cyan);
+  font-size: 0.78rem;
+  font-weight: 800;
+  border: 1px solid rgba(70, 232, 255, 0.32);
+  border-radius: 8px;
+  background: rgba(70, 232, 255, 0.08);
+}
+
+.pulse-dot {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 999px;
+  background: var(--cyan);
+  box-shadow: 0 0 16px var(--cyan);
+}
+
+.control-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.65rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 42px;
+  border-radius: 8px;
+  font-weight: 800;
+}
+
+.btn-neon {
+  color: #eafcff;
+  border: 0;
+  background: linear-gradient(135deg, var(--cyan), var(--blue));
+  box-shadow:
+    0 0 26px rgba(70, 232, 255, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22);
+}
+
+.btn-neon:hover {
+  color: #ffffff;
+  filter: brightness(1.08);
+}
+
+.btn-ghost {
+  color: var(--text);
+  border: 1px solid rgba(70, 232, 255, 0.18);
+  background: rgba(9, 28, 52, 0.62);
+}
+
+.btn-ghost:hover {
+  color: var(--text);
+  border-color: rgba(70, 232, 255, 0.42);
+  background: linear-gradient(
+    135deg,
+    rgba(70, 232, 255, 0.12),
+    rgba(47, 140, 255, 0.12)
+  );
+}
+
+.btn-toggle-active {
+  color: #ffffff;
+  border-color: rgba(70, 232, 255, 0.58);
+  background: linear-gradient(135deg, var(--cyan), var(--blue));
+  box-shadow:
+    0 0 22px rgba(70, 232, 255, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.btn-toggle-active:hover {
+  color: #ffffff;
+  border-color: rgba(70, 232, 255, 0.72);
+  filter: brightness(1.06);
+}
+
+.metric,
+.data-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-block: 0.55rem;
+}
+
+.metric + .metric,
+.data-row + .data-row {
+  border-top: 1px solid var(--line);
+}
+
+.metric span,
+.data-row span {
+  color: var(--muted);
+}
+
+.metric strong,
+.data-row strong {
+  color: var(--amber);
+}
+
+.focus-mode .command-panel,
+.focus-mode .telemetry-panel {
+  opacity: 0.12;
+  transition: opacity 180ms ease;
+}
+
+.focus-mode .command-panel:hover,
+.focus-mode .telemetry-panel:hover {
+  opacity: 1;
+}
+
+.content-stage {
+  min-height: 100vh;
+  padding-top: var(--nav-height);
+}
+
+.hero-band {
+  min-height: calc(100vh - var(--nav-height) - 3rem);
+}
+
+.data-card {
+  position: relative;
+  padding: 1.2rem;
+  overflow: hidden;
+}
+
+.card-orbit-line {
+  height: 5px;
+  margin: -1.2rem -1.2rem 1.1rem;
+  background: linear-gradient(90deg, var(--cyan), var(--blue), var(--ice));
+}
+
+.cesium-viewer-bottom,
+.cesium-widget-credits {
+  display: none !important;
+}
+
+@media (max-width: 991.98px) {
+  .app-navbar .navbar-collapse {
+    padding-top: 0.8rem;
+  }
+
+  .app-navbar .nav-link {
+    width: 100%;
+  }
+
+  .command-panel {
+    top: calc(var(--nav-height) + 14px);
+    left: 14px;
+    width: calc(100vw - 28px);
+  }
+
+  .telemetry-panel {
+    right: 14px;
+    bottom: 14px;
+    width: calc(100vw - 28px);
+  }
+
+  .cesium-popup {
+    right: 14px;
+    top: calc(var(--nav-height) + 14px);
+    width: calc(100vw - 28px);
+  }
+}
+
+@media (max-width: 575.98px) {
+  :root {
+    --nav-height: 66px;
+  }
+
+  .command-panel {
+    top: auto;
+    right: 10px;
+    bottom: 10px;
+    left: 10px;
+    width: auto;
+    max-height: 38vh;
+    padding: 0.72rem;
+    overflow: auto;
+    border-radius: 8px;
+  }
+
+  .command-panel .eyebrow {
+    font-size: 0.64rem;
+    margin-bottom: 0.15rem !important;
+  }
+
+  .command-panel .panel-title {
+    font-size: 1.05rem;
+    margin-bottom: 0.1rem !important;
+  }
+
+  .command-panel .panel-copy {
+    display: none;
+  }
+
+  .qgis-layer-controls {
+    max-height: 16vh;
+    margin-top: 0.55rem !important;
+    font-size: 0.82rem;
+  }
+
+  .qgis-layer-controls .layer > div {
+    min-height: 28px;
+    font-size: 0.8rem;
+  }
+
+  .control-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.45rem;
+    margin-top: 0.55rem !important;
+  }
+
+  .btn {
+    min-height: 36px;
+    gap: 0.35rem;
+    padding-inline: 0.45rem;
+    font-size: 0.78rem;
+  }
+
+  .telemetry-panel {
+    display: none;
+  }
+
+  .cesium-popup {
+    top: calc(var(--nav-height) + 8px);
+    right: 10px;
+    bottom: auto;
+    left: 10px;
+    width: auto;
+    max-height: 22vh;
+    padding: 0.62rem;
+  }
+
+  .cesium-popup-header {
+    gap: 0.6rem;
+    padding-bottom: 0.45rem;
+  }
+
+  .cesium-popup .eyebrow {
+    font-size: 0.58rem;
+    margin-bottom: 0 !important;
+  }
+
+  .cesium-popup-title {
+    font-size: 0.92rem;
+  }
+
+  .cesium-popup-close {
+    width: 30px;
+    height: 30px;
+  }
+
+  .cesium-popup-body {
+    gap: 0.32rem;
+    padding-top: 0.45rem;
+  }
+
+  .cesium-popup-row {
+    grid-template-columns: 1fr;
+    gap: 0.1rem;
+    padding-bottom: 0.32rem;
+  }
+
+  .cesium-popup-row span,
+  .cesium-popup-row strong {
+    font-size: 0.74rem;
+  }
+}
