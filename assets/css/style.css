@@ -208,7 +208,11 @@ body.app-shell {
   border-radius: 8px;
   background: rgba(9, 28, 52, 0.62);
   cursor: pointer;
-  transition: border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease, color 0.18s ease;
+  transition:
+    border-color 0.18s ease,
+    background 0.18s ease,
+    box-shadow 0.18s ease,
+    color 0.18s ease;
 }
 
 .classification-toggle input {
@@ -221,12 +225,18 @@ body.app-shell {
   color: #ffffff;
   border-color: rgba(70, 232, 255, 0.58);
   background: linear-gradient(135deg, var(--cyan), var(--blue));
-  box-shadow: 0 0 22px rgba(70, 232, 255, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  box-shadow:
+    0 0 22px rgba(70, 232, 255, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .classification-toggle:not(:has(input:checked)):hover {
   border-color: rgba(70, 232, 255, 0.42);
-  background: linear-gradient(135deg, rgba(70, 232, 255, 0.12), rgba(47, 140, 255, 0.12));
+  background: linear-gradient(
+    135deg,
+    rgba(70, 232, 255, 0.12),
+    rgba(47, 140, 255, 0.12)
+  );
 }
 
 .qgis-layer-controls {
@@ -263,7 +273,11 @@ body.app-shell {
   border-radius: 8px;
   background: rgba(9, 28, 52, 0.62);
   font-size: 0.9rem;
-  transition: border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease, color 0.18s ease;
+  transition:
+    border-color 0.18s ease,
+    background 0.18s ease,
+    box-shadow 0.18s ease,
+    color 0.18s ease;
 }
 
 .qgis-layer-controls .layer > div:first-child {
@@ -287,9 +301,17 @@ body.app-shell {
   box-shadow: inset 0 0 18px rgba(70, 232, 255, 0.07);
 }
 
-.qgis-layer-controls .layer > div:has(input[type="checkbox"]):not(:has(input[type="checkbox"]:checked)):hover {
+.qgis-layer-controls
+  .layer
+  > div:has(input[type="checkbox"]):not(
+    :has(input[type="checkbox"]:checked)
+  ):hover {
   border-color: rgba(70, 232, 255, 0.42);
-  background: linear-gradient(135deg, rgba(70, 232, 255, 0.12), rgba(47, 140, 255, 0.12));
+  background: linear-gradient(
+    135deg,
+    rgba(70, 232, 255, 0.12),
+    rgba(47, 140, 255, 0.12)
+  );
 }
 
 .qgis-layer-controls .layer > div:has(input[type="range"]) {
@@ -406,7 +428,11 @@ body.app-shell {
 
 .cesium-popup-close:hover {
   border-color: rgba(70, 232, 255, 0.42);
-  background: linear-gradient(135deg, rgba(70, 232, 255, 0.12), rgba(47, 140, 255, 0.12));
+  background: linear-gradient(
+    135deg,
+    rgba(70, 232, 255, 0.12),
+    rgba(47, 140, 255, 0.12)
+  );
 }
 
 .cesium-popup-body {
@@ -511,6 +537,19 @@ body.app-shell {
 }
 
 .btn-neon:hover {
+  color: #ffffff;
+  filter: brightness(1.08);
+}
+.btn-green {
+  color: #acfffffe;
+  border: 0;
+  background: linear-gradient(135deg, #2fa8ff, #91a9c7);
+  box-shadow:
+    0 0 26px rgb(0, 225, 255),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22);
+}
+
+.btn-green:hover {
   color: #ffffff;
   filter: brightness(1.08);
 }
@@ -737,5 +776,89 @@ body.app-shell {
   .cesium-popup-row span,
   .cesium-popup-row strong {
     font-size: 0.74rem;
+  }
+}
+
+/* --- Container Utama Footer Ticker --- */
+.geo-ticker-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 30px; /* Ukuran lebih ramping & minimalis */
+  background: var(--surface); /* Menggunakan warna transparan tema Anda */
+  backdrop-filter: blur(8px); /* Efek blur kaca premium pada latar belakang */
+  -webkit-backdrop-filter: blur(8px);
+  border-top: 1px solid var(--line); /* Garis pembatas tipis transparan bawaan tema */
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  z-index: 9999;
+  font-family: inherit; /* Mengikuti font utama aplikasi */
+}
+
+/* --- Pembungkus Konten Jalur Teks --- */
+.ticker-content-wrap {
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+/* --- Animasi Gerakan Marquee CSS --- */
+.ticker-content {
+  display: flex;
+  white-space: nowrap;
+  animation: geo-marquee 40s linear infinite; /* Kecepatan konstan yang nyaman dibaca */
+}
+
+/* --- Gaya Teks Di Dalam Ticker --- */
+.ticker-content p {
+  color: var(--text); /* Menggunakan warna teks utama */
+  font-size: 11.5px; /* Ukuran font lebih kecil dan presisi */
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  margin: 0;
+  padding-right: 80px; /* Jarak pisah saat teks berulang */
+  display: flex;
+  align-items: center;
+}
+
+/* --- Aksen Sorotan Teks (Demo Product) --- */
+.ticker-highlight {
+  color: var(--amber); /* Warna amber emas khas penanda info */
+  font-weight: 600;
+  margin-right: 4px;
+}
+
+/* --- Gaya Link Tautan WhatsApp --- */
+.ticker-link {
+  color: var(--cyan); /* Menggunakan warna cyan neon bawaan tema */
+  font-weight: 600;
+  margin-left: 6px;
+  text-decoration: none;
+  border-bottom: 1px dashed var(--cyan); /* Garis bawah putus-putus tipis */
+  transition: color 0.2s ease;
+}
+
+/* --- Efek Interaksi Mouse --- */
+.ticker-link:hover {
+  color: var(--blue); /* Berubah menjadi biru saat disorot */
+  border-bottom-color: var(--blue);
+}
+
+.ticker-content:hover {
+  animation-play-state: paused; /* Teks otomatis berhenti mengalir saat kursor mendekat */
+  cursor: pointer;
+}
+
+/* --- Structural Keyframes Animasi --- */
+@keyframes geo-marquee {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
   }
 }
