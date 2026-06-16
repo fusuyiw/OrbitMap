@@ -1,6 +1,6 @@
 # OrbitMap 🌐
 
-OrbitMap adalah aplikasi berbasis web Geospatial (WebGIS) yang dirancang untuk kebutuhan visualisasi, pengelolaan, dan analisis data spasial modern. Platform ini menyediakan antarmuka interaktif yang ringan namun kuat untuk merender aset digital seperti 3D Digital Twin, Model Elevasi (DEM/DTM), hingga visualisasi Point Cloud hasil akuisisi data udara (LiDAR/Fotogrametri). Klik link dibawah ini untuk melihat live [text](https://orbit.infomapgeosurvey.com/)
+OrbitMap adalah aplikasi berbasis web Geospatial (WebGIS) yang dirancang untuk kebutuhan visualisasi, pengelolaan, dan analisis data spasial modern. Platform ini menyediakan antarmuka interaktif yang ringan namun kuat untuk merender aset digital seperti 3D Digital Twin, Model Elevasi (DEM/DTM), hingga visualisasi Point Cloud hasil akuisisi data udara (LiDAR/Fotogrametri). Klik link dibawah ini untuk melihat live [OrbitMap Live View](https://orbit.infomapgeosurvey.com/)
 
 ---
 
