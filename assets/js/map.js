@@ -151,8 +151,8 @@
       "Detail Persil",
     );
     const rows = [
-      ["Nama", ["NAMA", "Nama", "name"]],
-      ["Nomor", ["Nomor", "NOMOR", "No"]],
+      // ["Nama", ["NAMA", "Nama", "name"]],
+      // ["Nomor", ["Nomor", "NOMOR", "No"]],
       ["NIB", ["NIB", "_NIB"]],
       ["Alamat", ["ALAMAT", "Alamat", "_Alamat"]],
       ["Kecamatan", ["KECAMATAN", "Kecamatan", "_Kec"]],
@@ -162,8 +162,13 @@
 
     const html = rows
       .map(function ([label, keys]) {
-        const value = getDisplayProperty(entity, keys, "-");
+        let value = getDisplayProperty(entity, keys, "-");
         if (value === "-") return "";
+
+        if (label === "Luas") {
+          value = value + " m²";
+        }
+
         return (
           '<div class="cesium-popup-row"><span>' +
           escapeHtml(label) +
@@ -424,9 +429,11 @@
 
   async function fitTileset() {
     if (overlayDataSource) {
-      const primaryEntity = overlayDataSource.entities.values.find(function (entity) {
-        return getEntityPositions(entity).length > 0;
-      });
+      const primaryEntity = overlayDataSource.entities.values.find(
+        function (entity) {
+          return getEntityPositions(entity).length > 0;
+        },
+      );
 
       if (primaryEntity) {
         return flyToEntitySmart(primaryEntity, {

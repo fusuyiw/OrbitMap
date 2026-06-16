@@ -5,7 +5,7 @@ window.ORBITMAP_CONFIG = {
   tilesetJsonUrl: "assets/tileset/tileset.json",
   geoJsonOverlay: {
     assetId: "",
-    url: "assets/data/overlay.geojson",
+    url: "assets/data/persil.geojson",
     clampToGround: true,
     color: "#ffd166",
   },

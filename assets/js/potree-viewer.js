@@ -6,13 +6,17 @@
     "potreeClassificationLabel",
   );
   const pointBudgetSlider = document.getElementById("pointBudgetSlider");
+  const togglePotreePanelBtn = document.getElementById("togglePotreePanelBtn");
+  const classificationColorBtn = document.getElementById(
+    "classificationColorBtn",
+  );
   const classificationToggles = [
     document.getElementById("classificationGroundToggle"),
     document.getElementById("classificationVegetationToggle"),
     document.getElementById("classificationBuildingToggle"),
   ].filter(Boolean);
   let loadedPointCloud = null;
-  let useClassificationColors = false;
+  let useClassificationColors = true;
 
   function formatBudget(value) {
     return new Intl.NumberFormat("id-ID").format(value);
@@ -38,7 +42,7 @@
         return toggle.checked;
       })
       .map(function (toggle) {
-        return toggle.parentElement.textContent.trim();
+        return toggle.dataset.label || toggle.parentElement.textContent.trim();
       });
 
     classificationLabel.textContent =
@@ -53,6 +57,7 @@
     }
 
     const material = loadedPointCloud.material;
+    setClassificationColorMode(true);
     const existing = material.classification[classId] || {
       color: [1, 1, 1, 1],
       visible: true,
@@ -63,7 +68,9 @@
       ...existing,
       visible,
     };
+
     material.recomputeClassification();
+    material.needsUpdate = true;
     updateClassificationLabel();
   }
 
@@ -76,6 +83,10 @@
   function setClassificationColorMode(enabled) {
     useClassificationColors = enabled;
     if (!loadedPointCloud) {
+      if (classificationColorBtn) {
+        classificationColorBtn.classList.toggle("btn-neon", enabled);
+        classificationColorBtn.classList.toggle("btn-ghost", !enabled);
+      }
       return;
     }
 
@@ -84,10 +95,62 @@
     } else {
       loadedPointCloud.material.activeAttributeName = "rgba";
     }
+
+    if (classificationColorBtn) {
+      classificationColorBtn.classList.toggle("btn-neon", enabled);
+      classificationColorBtn.classList.toggle("btn-ghost", !enabled);
+    }
   }
 
   function absoluteProjectUrl(path) {
     return new URL(path, window.location.href).href.replace(/\/$/, "");
+  }
+
+  function isPhoneViewport() {
+    return window.matchMedia("(max-width: 575.98px)").matches;
+  }
+
+  function setPotreePanelCollapsed(collapsed) {
+    document.body.classList.toggle("potree-panel-collapsed", collapsed);
+
+    if (!togglePotreePanelBtn) {
+      return;
+    }
+
+    togglePotreePanelBtn.setAttribute("aria-expanded", String(!collapsed));
+    togglePotreePanelBtn.setAttribute(
+      "aria-label",
+      collapsed ? "Tampilkan panel" : "Sembunyikan panel",
+    );
+
+    const icon = togglePotreePanelBtn.querySelector("i");
+    if (icon) {
+      icon.classList.toggle("bi-chevron-down", !collapsed);
+      icon.classList.toggle("bi-chevron-up", collapsed);
+    }
+  }
+
+  function fitPointCloudView() {
+    if (!loadedPointCloud || !viewer.scene.pointclouds.length) {
+      viewer.fitToScreen();
+      return;
+    }
+
+    if (!isPhoneViewport()) {
+      viewer.fitToScreen();
+      return;
+    }
+
+    const box = viewer.getBoundingBox(viewer.scene.pointclouds);
+    const center = box.min.clone().add(box.max).multiplyScalar(0.5);
+    const size = box.max.clone().sub(box.min);
+    const distance = Math.max(size.x, size.y, size.z, 1) * 1.65;
+    const position = center.clone();
+    position.z += distance;
+
+    viewer.scene.view.setView(position, center, 0);
+    viewer.scene.view.yaw = 0;
+    viewer.scene.view.pitch = -Math.PI / 2;
   }
 
   if (!window.Potree) {
@@ -127,12 +190,12 @@
     material.classification[2] = {
       visible: true,
       name: "Ground",
-      color: [0.35, 0.95, 0.55, 1],
+      color: [0.58, 0.36, 0.18, 1],
     };
     material.classification[3] = {
       visible: true,
       name: "Vegetasi",
-      color: [0.2, 0.75, 0.25, 1],
+      color: [0.32, 0.8, 0.32, 1],
     };
     material.classification[6] = {
       visible: true,
@@ -140,18 +203,23 @@
       color: [1, 0.74, 0.24, 1],
     };
     material.recomputeClassification();
+    material.needsUpdate = true;
 
     viewer.scene.addPointCloud(loadedPointCloud);
     applyClassificationControls();
     setClassificationColorMode(useClassificationColors);
-    viewer.fitToScreen();
+    fitPointCloudView();
   });
 
   document
     .getElementById("fitPotreeBtn")
     ?.addEventListener("click", function () {
-      viewer.fitToScreen();
+      fitPointCloudView();
     });
+
+  window.addEventListener("resize", function () {
+    fitPointCloudView();
+  });
 
   document
     .getElementById("budgetLowBtn")
@@ -175,16 +243,17 @@
     });
   });
 
-  document
-    .getElementById("classificationColorBtn")
-    ?.addEventListener("click", function (event) {
-      setClassificationColorMode(!useClassificationColors);
-      event.currentTarget.classList.toggle("btn-neon", useClassificationColors);
-      event.currentTarget.classList.toggle(
-        "btn-ghost",
-        !useClassificationColors,
-      );
-    });
+  classificationColorBtn?.addEventListener("click", function () {
+    setClassificationColorMode(!useClassificationColors);
+  });
 
+  togglePotreePanelBtn?.addEventListener("click", function () {
+    setPotreePanelCollapsed(
+      !document.body.classList.contains("potree-panel-collapsed"),
+    );
+  });
+
+  setPotreePanelCollapsed(isPhoneViewport());
+  setClassificationColorMode(useClassificationColors);
   updateClassificationLabel();
 })();
